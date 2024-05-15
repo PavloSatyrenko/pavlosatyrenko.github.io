@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+        <title>8-puzzle</title>
+    </head>
+    <body>
+        <h1 class="title">8-puzzle</h1>
+        <div class="card">
+            <h2 class="card__title">Board</h2>
+            <div class="board">
+                <div class="tile" data-tile="1" data-row="1" data-col="1">1</div>
+                <div class="tile" data-tile="2" data-row="1" data-col="2">2</div>
+                <div class="tile" data-tile="3" data-row="1" data-col="3">3</div>
+                <div class="tile" data-tile="4" data-row="2" data-col="1">4</div>
+                <div class="tile" data-tile="5" data-row="2" data-col="2">5</div>
+                <div class="tile" data-tile="6" data-row="2" data-col="3">6</div>
+                <div class="tile" data-tile="7" data-row="3" data-col="1">7</div>
+                <div class="tile" data-tile="8" data-row="3" data-col="2">8</div>
+                <div class="tile empty-tile" data-tile="0" data-row="3" data-col="3"></div>
+            </div>
+
+            <label class="input-wrapper">
+                <span class="input-label">Enter custom initial board state: </span>
+                <input #boardInput type="text" class="input" />
+            </label>
+
+            <button #generateButton class="button">Generate</button>
+
+            <label class="input-wrapper">
+                <span class="input-label">Enter custom initial board state: </span>
+                <select #methodSelect class="input">
+                    <option>A*</option>
+                    <option>RBFS</option>
+                </select>
+            </label>
+
+            <button #solveButton class="button">Solve</button>
+
+            <script src="index.js"></script>
+        </div>
+    </body>
+</html>

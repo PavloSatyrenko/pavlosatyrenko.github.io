@@ -1,0 +1,20 @@
+{
+  "name": "term_paper",
+  "version": "1.0.0",
+  "description": "Term paper on \"8-puzzle\" written by Satyrenko Pavlo",
+  "author": "Satyrenko Pavlo",
+  "license": "ISC",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
+  },
+  "dependencies": {
+    "@types/node": "^20.12.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
