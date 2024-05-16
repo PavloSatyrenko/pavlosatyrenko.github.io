@@ -51,30 +51,30 @@ body {
     --row: 2;
 }
 
-[data-col="1"] {
-    --col: 0;
+[data-column="1"] {
+    --column: 0;
 }
 
-[data-col="2"] {
-    --col: 1;
+[data-column="2"] {
+    --column: 1;
 }
 
-[data-col="3"] {
-    --col: 2;
+[data-column="3"] {
+    --column: 2;
 }
 
 .tile {
     position: absolute;
     top: calc(var(--tile-size) * var(--row));
-    left: calc(var(--tile-size) * var(--col));
+    left: calc(var(--tile-size) * var(--column));
     display: flex;
     align-items: center;
     justify-content: center;
     width: var(--tile-size);
     height: var(--tile-size);
-    font-size: 28px;
+    font-size: calc(var(--tile-size) / 2);
     font-weight: 900;
-    border: 2px solid #000;
+    border: calc(var(--tile-size) / 16 / 2) solid #222b45;
     transition: 0.5s;
 }
 

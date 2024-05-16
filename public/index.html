@@ -11,33 +11,33 @@
         <div class="card">
             <h2 class="card__title">Board</h2>
             <div class="board">
-                <div class="tile" data-tile="1" data-row="1" data-col="1">1</div>
-                <div class="tile" data-tile="2" data-row="1" data-col="2">2</div>
-                <div class="tile" data-tile="3" data-row="1" data-col="3">3</div>
-                <div class="tile" data-tile="4" data-row="2" data-col="1">4</div>
-                <div class="tile" data-tile="5" data-row="2" data-col="2">5</div>
-                <div class="tile" data-tile="6" data-row="2" data-col="3">6</div>
-                <div class="tile" data-tile="7" data-row="3" data-col="1">7</div>
-                <div class="tile" data-tile="8" data-row="3" data-col="2">8</div>
-                <div class="tile empty-tile" data-tile="0" data-row="3" data-col="3"></div>
+                <div class="tile" data-value="1">1</div>
+                <div class="tile" data-value="2">2</div>
+                <div class="tile" data-value="3">3</div>
+                <div class="tile" data-value="4">4</div>
+                <div class="tile" data-value="5">5</div>
+                <div class="tile" data-value="6">6</div>
+                <div class="tile" data-value="7">7</div>
+                <div class="tile" data-value="8">8</div>
+                <div class="tile empty-tile" data-value="0"></div>
             </div>
 
             <label class="input-wrapper">
                 <span class="input-label">Enter custom initial board state: </span>
-                <input #boardInput type="text" class="input" />
+                <input type="text" class="input boardInput" placeholder="012345678" />
             </label>
 
-            <button #generateButton class="button">Generate</button>
+            <button class="button generateButton">Generate</button>
 
             <label class="input-wrapper">
                 <span class="input-label">Enter custom initial board state: </span>
-                <select #methodSelect class="input">
+                <select class="input methodSelect">
                     <option>A*</option>
                     <option>RBFS</option>
                 </select>
             </label>
 
-            <button #solveButton class="button">Solve</button>
+            <button type="submit" class="button solveButton">Solve</button>
 
             <script src="index.js"></script>
         </div>

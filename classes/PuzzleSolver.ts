@@ -54,10 +54,13 @@ export class PuzzleSolver {
             const newRow = state.emptyTile.row + direction.row;
             const newColumn = state.emptyTile.column + direction.column;
 
-            if (newRow >= 0 && newRow < 3 && newColumn >= 0 && newColumn < 3) {
+            if (newRow >= 1 && newRow <= 3 && newColumn >= 1 && newColumn <= 3) {
                 const newBoard = state.board.slice();
-                newBoard.find((tile: Tile) => tile.row == newRow && tile.column == newColumn)!.row = state.emptyTile.row;
-                newBoard.find((tile: Tile) => tile.row == newRow && tile.column == newColumn)!.column = state.emptyTile.column;
+                const tileToChange = newBoard.find((tile: Tile) => tile.row == newRow && tile.column == newColumn)!
+
+                tileToChange.row = state.emptyTile.row;
+                tileToChange.column = state.emptyTile.column;
+
                 newBoard.find((tile: Tile) => tile.value == 0)!.row = newRow;
                 newBoard.find((tile: Tile) => tile.value == 0)!.column = newColumn;
 

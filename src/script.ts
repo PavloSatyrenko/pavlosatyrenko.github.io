@@ -1,69 +1,70 @@
-import { PuzzleSolver } from "../classes/PuzzleSolver";
+import { PuzzleSolverMethodAStar } from "../classes/PuzzleSolverMethodAStar";
+import { PuzzleSolverMethodRBFS } from "../classes/PuzzleSolverMethodRBFS";
 
 document.addEventListener("DOMContentLoaded", () => {
     const board: HTMLElement[] = document.getElementsByClassName("tile") as unknown as HTMLElement[];
-    const boardInput: HTMLInputElement = document.getElementById("boardInput") as HTMLInputElement;
-    const generateButton: HTMLButtonElement = document.getElementById("generateButton") as HTMLButtonElement;
-    const methodSelect: HTMLSelectElement = document.getElementById("methodSelect") as HTMLSelectElement;
-    const solveButton: HTMLButtonElement = document.getElementById("solveButton") as HTMLButtonElement;
+    const boardInput: HTMLInputElement = (document.getElementsByClassName("boardInput") as unknown as HTMLInputElement[])[0];
+    const generateButton: HTMLButtonElement = (document.getElementsByClassName("generateButton") as unknown as HTMLButtonElement[])[0];
+    const methodSelect: HTMLSelectElement = (document.getElementsByClassName("methodSelect") as unknown as HTMLSelectElement[])[0];
+    const solveButton: HTMLButtonElement = (document.getElementsByClassName("solveButton") as unknown as HTMLButtonElement[])[0];
 
-    const state: State = {
-        board: [
-            {
-                value: 0,
-                row: 1,
-                column: 1,
-            },
-            {
-                value: 1,
-                row: 1,
-                column: 2,
-            },
-            {
-                value: 2,
-                row: 1,
-                column: 3,
-            },
-            {
-                value: 3,
-                row: 2,
-                column: 1,
-            },
-            {
-                value: 4,
-                row: 2,
-                column: 2,
-            },
-            {
-                value: 5,
-                row: 2,
-                column: 3,
-            },
-            {
-                value: 6,
-                row: 3,
-                column: 1,
-            },
-            {
-                value: 7,
-                row: 3,
-                column: 2,
-            },
-            {
-                value: 8,
-                row: 3,
-                column: 3,
-            },
-        ],
-        emptyTile: {
-            value: 0,
-            row: 1,
-            column: 1,
-        },
-        cost: 0,
-        heuristic: 0,
-        totalCost: 0,
-    };
+    let puzzleSolver: PuzzleSolverMethodAStar | PuzzleSolverMethodRBFS = new PuzzleSolverMethodAStar();
+    const defaultBoard: State = puzzleSolver.stringToState("012345678");
 
-    const puzzleSolver: PuzzleSolver = new PuzzleSolver();
+    drawBoard(board, defaultBoard);
+
+    boardInput.addEventListener("input", () => {
+        if ((boardInput.value.length !== 9 ||
+            !boardInput.value.match(/[0-8]{9}/) ||
+            new Set(boardInput.value).size != boardInput.value.length) &&
+            boardInput.value.length != 0) {
+            solveButton.disabled = true;
+            return;
+        }
+
+        drawBoard(board, puzzleSolver.stringToState(boardInput.value));
+        solveButton.disabled = false;
+    });
+
+    generateButton.addEventListener("click", () => {
+        const unusedValues: number[] = Array.from({ length: 9 }, (_, index) => index);
+        let boardString: string = "";
+
+        for (let i = 0; i < 9; i++) {
+            const randomIndex: number = Math.floor(Math.random() * unusedValues.length);
+            boardString += unusedValues.splice(randomIndex, 1)[0];
+        }
+
+        boardInput.value = boardString;
+        drawBoard(board, puzzleSolver.stringToState(boardString));
+    });
+
+    methodSelect.addEventListener("change", () => {
+        if (methodSelect.value === "A*") {
+            puzzleSolver = new PuzzleSolverMethodAStar();
+        }
+        else if (methodSelect.value === "RBFS") {
+            puzzleSolver = new PuzzleSolverMethodRBFS();
+        }
+    });
+
+    solveButton.addEventListener("click", () => {
+        const initialState: State = puzzleSolver.stringToState(boardInput.value);
+        const solution: State | null = puzzleSolver.solve(initialState);
+
+        if (!solution) {
+            alert("No solution found.");
+            return;
+        }
+
+        drawBoard(board, solution);
+    });
 });
+
+function drawBoard(board: HTMLElement[], state: State): void {
+    state.board.forEach((tile: Tile) => {
+        const tileElement: HTMLElement = [...board].find((tileElement: HTMLElement) => +tileElement.dataset["value"]! == tile.value)!;
+        tileElement.dataset["row"] = tile.row.toString();
+        tileElement.dataset["column"] = tile.column.toString();
+    });
+}
