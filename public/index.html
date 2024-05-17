@@ -9,40 +9,48 @@
     <body>
         <h1 class="title">8-puzzle</h1>
         <div class="card">
-            <h2 class="card__title">Board</h2>
-            <div class="card-body">
-                <div class="settings">
-                    <div class="board">
-                        <div class="tile" data-value="1">1</div>
-                        <div class="tile" data-value="2">2</div>
-                        <div class="tile" data-value="3">3</div>
-                        <div class="tile" data-value="4">4</div>
-                        <div class="tile" data-value="5">5</div>
-                        <div class="tile" data-value="6">6</div>
-                        <div class="tile" data-value="7">7</div>
-                        <div class="tile" data-value="8">8</div>
-                        <div class="tile empty-tile" data-value="0"></div>
-                    </div>
+            <div class="settings">
+                <h2 class="card__title">Board</h2>
 
-                    <label class="input-wrapper">
-                        <span class="input-label">Enter custom initial board state: </span>
-                        <input type="text" class="input boardInput" placeholder="012345678" />
-                    </label>
-
-                    <button class="button generateButton">Generate</button>
-
-                    <label class="input-wrapper">
-                        <span class="input-label">Enter custom initial board state: </span>
-                        <select class="input methodSelect">
-                            <option>A*</option>
-                            <option>RBFS</option>
-                        </select>
-                    </label>
-
-                    <button type="submit" class="button solveButton">Solve</button>
+                <div class="board">
+                    <div class="tile" data-value="1">1</div>
+                    <div class="tile" data-value="2">2</div>
+                    <div class="tile" data-value="3">3</div>
+                    <div class="tile" data-value="4">4</div>
+                    <div class="tile" data-value="5">5</div>
+                    <div class="tile" data-value="6">6</div>
+                    <div class="tile" data-value="7">7</div>
+                    <div class="tile" data-value="8">8</div>
+                    <div class="tile empty-tile" data-value="0"></div>
                 </div>
 
-                <div class="result">
+                <label class="input-wrapper">
+                    <span class="input-label">Enter custom initial board state: </span>
+                    <input type="text" class="input boardInput" placeholder="012345678" />
+                </label>
+
+                <button class="settings__button generateButton">Generate</button>
+
+                <label class="input-wrapper input-wrapper_type_select">
+                    <span class="input-label">Enter custom initial board state: </span>
+                    <select class="input methodSelect">
+                        <option>A*</option>
+                        <option>RBFS</option>
+                    </select>
+                </label>
+
+                <button type="submit" class="settings__button solveButton">Solve</button>
+            </div>
+
+            <div class="result">
+                <h3 class="card__title">Result</h3>
+                <div class="result__header">
+                    <button class="result__button prevButton">🠜</button>
+                    <button class="result__button resetButton">↺</button>
+                    <button class="result__button nextButton">🠞</button>
+                </div>
+
+                <div class="result__body">
                     <div class="loader"></div>
                     <div class="table"></div>
                 </div>

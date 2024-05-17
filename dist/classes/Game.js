@@ -40,7 +40,8 @@ export class Game {
             this.solveButton.disabled = true;
             return;
         }
-        this.drawBoard(this.puzzleSolver.stringToState(value));
+        const state = value.length ? this.puzzleSolver.stringToState(value) : this.defaultBoard;
+        this.drawBoard(state);
         this.solveButton.disabled = !this.puzzleSolver.isSolvable(value);
     }
     generateBoard() {
@@ -87,14 +88,20 @@ export class Game {
         return path;
     }
     generateTable(path) {
-        let newElement;
         this.tableElement.innerHTML = "";
         this.loaderElement.classList.remove("loader_visible");
         for (let i = 0; i < path.length; i++) {
-            newElement = document.createElement("div");
+            let newIndexElement = document.createElement("span");
+            newIndexElement.classList.add("table__index");
+            newIndexElement.innerText = i + 1 + ".";
+            let newButtonElement = document.createElement("button");
+            newButtonElement.classList.add("table__button");
+            newButtonElement.innerText = path[i];
+            newButtonElement.addEventListener("click", () => this.drawBoard(this.puzzleSolver.stringToState(path[i])));
+            let newElement = document.createElement("div");
             newElement.classList.add("table__row");
-            newElement.innerText = i + ". " + path[i];
-            newElement.addEventListener("click", () => this.drawBoard(this.puzzleSolver.stringToState(path[i])));
+            newElement.appendChild(newIndexElement);
+            newElement.appendChild(newButtonElement);
             this.tableElement.appendChild(newElement);
         }
     }
