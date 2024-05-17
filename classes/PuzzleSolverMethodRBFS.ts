@@ -1,16 +1,11 @@
-import { Game } from './Game';
 import { PuzzleSolver } from './PuzzleSolver';
 
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
-    solve(initialState: State, maxDepth: number): State | null {
-        return this.RBFS(initialState, Infinity, maxDepth)[0];
+    solve(initialState: State): State | null {
+        return this.RBFS(initialState, Infinity)[0];
     }
 
-    RBFS(initialState: State, bound: number, depth: number): [State | null, number] {
-        if (!depth) {
-            return [null, Infinity];
-        }
-
+    RBFS(initialState: State, bound: number): [State | null, number] {
         if (this.stateToString(initialState) == "123456780") {
             return [initialState, initialState.totalCost];
         }
@@ -33,7 +28,7 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
 
             const secondBestState: { state: State, value: number } = availableStates[1];
 
-            const result = this.RBFS(bestState.state, Math.min(bound, secondBestState.value), depth - 1);
+            const result = this.RBFS(bestState.state, Math.min(bound, secondBestState.value));
 
             bestState.value = result[1] || Infinity;
 

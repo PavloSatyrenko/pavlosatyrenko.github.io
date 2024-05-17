@@ -6,7 +6,6 @@ export class Game {
     generateButton;
     methodSelect;
     solveButton;
-    depthInput;
     tableElement;
     loaderElement;
     puzzleSolver;
@@ -17,7 +16,6 @@ export class Game {
         this.generateButton = document.getElementsByClassName("generateButton")[0];
         this.methodSelect = document.getElementsByClassName("methodSelect")[0];
         this.solveButton = document.getElementsByClassName("solveButton")[0];
-        this.depthInput = document.getElementsByClassName("depthInput")[0];
         this.tableElement = document.getElementsByClassName("table")[0];
         this.loaderElement = document.getElementsByClassName("loader")[0];
         this.puzzleSolver = new PuzzleSolverMethodAStar();
@@ -70,7 +68,7 @@ export class Game {
         this.tableElement.innerHTML = "";
         this.loaderElement.classList.add("loader_visible");
         setTimeout(() => {
-            const solution = this.puzzleSolver.solve(initialState, +this.depthInput.value || 25);
+            const solution = this.puzzleSolver.solve(initialState);
             if (!solution) {
                 this.loaderElement.classList.remove("loader_visible");
             }

@@ -1,12 +1,9 @@
 import { PuzzleSolver } from './PuzzleSolver';
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
-    solve(initialState, maxDepth) {
-        return this.RBFS(initialState, Infinity, maxDepth)[0];
+    solve(initialState) {
+        return this.RBFS(initialState, Infinity)[0];
     }
-    RBFS(initialState, bound, depth) {
-        if (!depth) {
-            return [null, Infinity];
-        }
+    RBFS(initialState, bound) {
         if (this.stateToString(initialState) == "123456780") {
             return [initialState, initialState.totalCost];
         }
@@ -24,7 +21,7 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
                 return [null, bestState.value];
             }
             const secondBestState = availableStates[1];
-            const result = this.RBFS(bestState.state, Math.min(bound, secondBestState.value), depth - 1);
+            const result = this.RBFS(bestState.state, Math.min(bound, secondBestState.value));
             bestState.value = result[1] || Infinity;
             if (result[0] != null) {
                 return result;

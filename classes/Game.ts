@@ -7,7 +7,6 @@ export class Game {
     generateButton: HTMLButtonElement;
     methodSelect: HTMLSelectElement;
     solveButton: HTMLButtonElement;
-    depthInput: HTMLInputElement;
     tableElement: HTMLElement;
     loaderElement: HTMLElement;
 
@@ -20,7 +19,6 @@ export class Game {
         this.generateButton = (document.getElementsByClassName("generateButton") as unknown as HTMLButtonElement[])[0];
         this.methodSelect = (document.getElementsByClassName("methodSelect") as unknown as HTMLSelectElement[])[0];
         this.solveButton = (document.getElementsByClassName("solveButton") as unknown as HTMLButtonElement[])[0];
-        this.depthInput = (document.getElementsByClassName("depthInput") as unknown as HTMLInputElement[])[0];
         this.tableElement = (document.getElementsByClassName("table") as unknown as HTMLElement[])[0];
         this.loaderElement = (document.getElementsByClassName("loader") as unknown as HTMLElement[])[0];
 
@@ -86,7 +84,7 @@ export class Game {
         this.loaderElement.classList.add("loader_visible");
 
         setTimeout(() => {
-            const solution: State | null = this.puzzleSolver.solve(initialState, +this.depthInput.value || 25);
+            const solution: State | null = this.puzzleSolver.solve(initialState);
 
             if (!solution) {
                 this.loaderElement.classList.remove("loader_visible");
