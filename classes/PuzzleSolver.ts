@@ -20,8 +20,22 @@ export class PuzzleSolver {
             emptyTile,
             cost: 0,
             heuristic: 0,
+            depth: 0,
             totalCost: 0,
         };
+    }
+
+    isSolvable(string: string): boolean {
+        let inversionCount = 0;
+
+        for (let i = 0; i < 8; i++) {
+            for (let j = i + 1; j < 9; j++) {
+                if (string[i] != "0" && string[j] != "0" && string[i] > string[j]) {
+                    inversionCount++;
+                }
+            }
+        }
+        return inversionCount % 2 == 0;
     }
 
     calculateManhattanHeuristic(tile: Tile): number {
@@ -73,6 +87,7 @@ export class PuzzleSolver {
                     cost: state.cost + 1,
                     heuristic: 0,
                     totalCost: 0,
+                    depth: state.depth + 1,
                     previousState: state
                 };
 

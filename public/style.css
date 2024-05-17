@@ -31,10 +31,23 @@ body {
     border-radius: 32px;
 }
 
+.card-body {
+    display: flex;
+    gap: 32px;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: calc(3 * var(--tile-size) + var(--tile-size) / 8 * 2 + 32px);
+}
+
 .board {
     position: relative;
     width: calc(3 * var(--tile-size) + var(--tile-size) / 8 * 2);
     height: calc(3 * var(--tile-size) + var(--tile-size) / 8 * 2);
+    margin: 0 auto;
     background-color: #ffffff;
     border: calc(var(--tile-size) / 8) solid #dedede;
 }
@@ -85,4 +98,10 @@ body {
 .input-wrapper {
     display: flex;
     flex-direction: column;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }

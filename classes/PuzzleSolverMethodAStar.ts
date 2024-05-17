@@ -2,7 +2,7 @@ import { PuzzleSolver } from './PuzzleSolver';
 import { PriorityQueue } from './PriorityQueue';
 
 export class PuzzleSolverMethodAStar extends PuzzleSolver {
-    solve(initialState: State): State | null {
+    solve(initialState: State, maxDepth: number): State | null {
         const openSet = new PriorityQueue<State>();
         const closedSet = new Set<string>();
 
@@ -19,7 +19,7 @@ export class PuzzleSolverMethodAStar extends PuzzleSolver {
 
             const availableStates = this.getAvailableStates(currentState);
             for (const state of availableStates) {
-                if (closedSet.has(this.stateToString(state))) {
+                if (closedSet.has(this.stateToString(state)) || state.depth > maxDepth) {
                     continue;
                 }
 

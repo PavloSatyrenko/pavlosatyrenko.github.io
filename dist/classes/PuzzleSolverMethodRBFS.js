@@ -1,4 +1,3 @@
-import { Game } from './Game';
 import { PuzzleSolver } from './PuzzleSolver';
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
     solve(initialState, maxDepth) {
@@ -19,18 +18,12 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
             };
         });
         while (availableStates.some((state) => state.value != Infinity)) {
-            const bestState = availableStates.reduce((previous, current) => {
-                return previous.value < current.value ? previous : current;
-            });
+            availableStates.sort((a, b) => a.value - b.value);
+            const bestState = availableStates[0];
             if (bestState.value > bound) {
                 return null;
             }
-            const secondBestState = availableStates.reduce((previous, current) => {
-                return current.value <= previous.value ? previous : current;
-            });
-            console.log(bestState.value, secondBestState.value, bound, depth - 1);
-            const game = new Game();
-            game.drawBoard(bestState.state);
+            const secondBestState = availableStates[1];
             const result = this.RBFS(bestState.state, Math.min(bound, secondBestState.value), depth - 1);
             bestState.value = result?.totalCost || Infinity;
             if (result !== null) {

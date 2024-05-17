@@ -4,5 +4,6 @@ type State = {
     cost: number;
     heuristic: number;
     totalCost: number;
+    depth: number;
     previousState?: State;
 }

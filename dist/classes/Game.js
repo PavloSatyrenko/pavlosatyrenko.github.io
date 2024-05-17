@@ -7,6 +7,7 @@ export class Game {
     methodSelect;
     solveButton;
     depthInput;
+    tableElement;
     puzzleSolver;
     defaultBoard;
     constructor() {
@@ -16,6 +17,7 @@ export class Game {
         this.methodSelect = document.getElementsByClassName("methodSelect")[0];
         this.solveButton = document.getElementsByClassName("solveButton")[0];
         this.depthInput = document.getElementsByClassName("depthInput")[0];
+        this.tableElement = document.getElementsByClassName("table")[0];
         this.puzzleSolver = new PuzzleSolverMethodAStar();
         this.defaultBoard = this.puzzleSolver.stringToState("012345678");
         this.boardInput.addEventListener("input", () => this.onBoardInputType(this.boardInput.value));
@@ -39,7 +41,7 @@ export class Game {
             return;
         }
         this.drawBoard(this.puzzleSolver.stringToState(value));
-        this.solveButton.disabled = false;
+        this.solveButton.disabled = !this.puzzleSolver.isSolvable(value);
     }
     generateBoard() {
         const unusedValues = Array.from({ length: 9 }, (_, index) => index);
@@ -50,6 +52,7 @@ export class Game {
         }
         this.boardInput.value = boardString;
         this.drawBoard(this.puzzleSolver.stringToState(boardString));
+        this.solveButton.disabled = !this.puzzleSolver.isSolvable(boardString);
     }
     onMethodSelectChange(value) {
         if (value === "A*") {
@@ -62,13 +65,17 @@ export class Game {
     solve() {
         const initialState = this.boardInput.value.length ? this.puzzleSolver.stringToState(this.boardInput.value) : this.defaultBoard;
         this.drawBoard(initialState);
-        const solution = this.puzzleSolver.solve(initialState, +this.depthInput.value || 20);
-        console.log(this.unpackState(solution));
-        if (!solution) {
-            alert("No solution found");
-            return;
-        }
-        this.drawBoard(solution);
+        this.tableElement.innerHTML = "";
+        setTimeout(() => {
+            const solution = this.puzzleSolver.solve(initialState, +this.depthInput.value || 25);
+            if (!solution) {
+                alert("No solution found");
+            }
+            else {
+                this.generateTable(this.unpackState(solution));
+                this.drawBoard(solution);
+            }
+        }, 0);
     }
     unpackState(state) {
         const path = [];
@@ -77,6 +84,17 @@ export class Game {
             state = state.previousState;
         }
         return path;
+    }
+    generateTable(path) {
+        let newElement;
+        this.tableElement.innerHTML = "";
+        for (let i = 0; i < path.length; i++) {
+            newElement = document.createElement("div");
+            newElement.classList.add("table__row");
+            newElement.innerText = i + ". " + path[i];
+            newElement.addEventListener("click", () => this.drawBoard(this.puzzleSolver.stringToState(path[i])));
+            this.tableElement.appendChild(newElement);
+        }
     }
 }
 //# sourceMappingURL=Game.js.map

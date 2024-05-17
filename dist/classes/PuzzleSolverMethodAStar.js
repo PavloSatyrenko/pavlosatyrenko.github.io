@@ -1,7 +1,7 @@
 import { PuzzleSolver } from './PuzzleSolver';
 import { PriorityQueue } from './PriorityQueue';
 export class PuzzleSolverMethodAStar extends PuzzleSolver {
-    solve(initialState) {
+    solve(initialState, maxDepth) {
         const openSet = new PriorityQueue();
         const closedSet = new Set();
         openSet.enqueue(initialState, 0);
@@ -13,7 +13,7 @@ export class PuzzleSolverMethodAStar extends PuzzleSolver {
             closedSet.add(this.stateToString(currentState));
             const availableStates = this.getAvailableStates(currentState);
             for (const state of availableStates) {
-                if (closedSet.has(this.stateToString(state))) {
+                if (closedSet.has(this.stateToString(state)) || state.depth > maxDepth) {
                     continue;
                 }
                 openSet.enqueue(state, state.totalCost);

@@ -24,23 +24,17 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
             });
 
         while (availableStates.some((state: { state: State, value: number }) => state.value != Infinity)) {
-            const bestState = availableStates.reduce((previous, current) => {
-                return previous.value < current.value ? previous : current;
-            });
+            availableStates.sort((a, b) => a.value - b.value);
+            const bestState = availableStates[0];
 
             if (bestState.value > bound) {
                 return null;
             }
 
-            const secondBestState: { state: State, value: number } = availableStates.reduce((previous, current) => {
-                return current.value <= previous.value ? previous : current;
-            });
+            const secondBestState: { state: State, value: number } = availableStates[1];
 
-            console.log(bestState.value, secondBestState.value, bound, depth - 1);
-            const game = new Game();
-            game.drawBoard(bestState.state);
             const result = this.RBFS(bestState.state, Math.min(bound, secondBestState.value), depth - 1);
-
+            
             bestState.value = result?.totalCost || Infinity;
 
             if (result !== null) {

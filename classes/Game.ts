@@ -8,6 +8,7 @@ export class Game {
     methodSelect: HTMLSelectElement;
     solveButton: HTMLButtonElement;
     depthInput: HTMLInputElement;
+    tableElement: HTMLElement;
 
     puzzleSolver: PuzzleSolverMethodAStar | PuzzleSolverMethodRBFS;
     defaultBoard: State;
@@ -19,6 +20,7 @@ export class Game {
         this.methodSelect = (document.getElementsByClassName("methodSelect") as unknown as HTMLSelectElement[])[0];
         this.solveButton = (document.getElementsByClassName("solveButton") as unknown as HTMLButtonElement[])[0];
         this.depthInput = (document.getElementsByClassName("depthInput") as unknown as HTMLInputElement[])[0];
+        this.tableElement = (document.getElementsByClassName("table") as unknown as HTMLElement[])[0];
 
         this.puzzleSolver = new PuzzleSolverMethodAStar();
         this.defaultBoard = this.puzzleSolver.stringToState("012345678");
@@ -47,7 +49,7 @@ export class Game {
         }
 
         this.drawBoard(this.puzzleSolver.stringToState(value));
-        this.solveButton.disabled = false;
+        this.solveButton.disabled = !this.puzzleSolver.isSolvable(value);
     }
 
     generateBoard(): void {
@@ -61,6 +63,8 @@ export class Game {
 
         this.boardInput.value = boardString;
         this.drawBoard(this.puzzleSolver.stringToState(boardString));
+
+        this.solveButton.disabled = !this.puzzleSolver.isSolvable(boardString);
     }
 
     onMethodSelectChange(value: string): void {
@@ -76,16 +80,19 @@ export class Game {
         const initialState: State = this.boardInput.value.length ? this.puzzleSolver.stringToState(this.boardInput.value) : this.defaultBoard;
 
         this.drawBoard(initialState);
+        this.tableElement.innerHTML = "";
 
-        const solution: State | null = this.puzzleSolver.solve(initialState, +this.depthInput.value || 20);
-        console.log(this.unpackState(solution));
+        setTimeout(() => {
+            const solution: State | null = this.puzzleSolver.solve(initialState, +this.depthInput.value || 25);
 
-        if (!solution) {
-            alert("No solution found");
-            return;
-        }
-
-        this.drawBoard(solution);
+            if (!solution) {
+                alert("No solution found");
+            }
+            else {
+                this.generateTable(this.unpackState(solution));
+                this.drawBoard(solution);
+            }
+        }, 0);
     }
 
     unpackState(state: State | null): string[] {
@@ -99,16 +106,17 @@ export class Game {
         return path;
     }
 
-    // generateTable(path: string[]): void {
-    //     this.tableElement.innerHTML = "";
+    generateTable(path: string[]): void {
+        let newElement: HTMLElement;
 
-    //     path.forEach((stateString: string) => {
-    //         const row: HTMLTableRowElement = tableElement.insertRow();
+        this.tableElement.innerHTML = "";
 
-    //         state.board.forEach((tile: Tile) => {
-    //             const cell: HTMLTableCellElement = row.insertCell();
-    //             cell.textContent = tile.value ? tile.value.toString() : "";
-    //         });
-    //     });
-    // }
+        for (let i = 0; i < path.length; i++) {
+            newElement = document.createElement("div");
+            newElement.classList.add("table__row");
+            newElement.innerText = i + ". " + path[i];
+            newElement.addEventListener("click", () => this.drawBoard(this.puzzleSolver.stringToState(path[i])));
+            this.tableElement.appendChild(newElement);
+        }
+    }
 }
