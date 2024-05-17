@@ -1,6 +1,7 @@
 export class PuzzleSolver {
     stateToString(state: State): string {
-        return state.board.map((tile: Tile) => tile.value).join('');
+        return state.board.sort((a: Tile, b: Tile) => a.row - b.row || a.column - b.column)
+            .map((tile: Tile) => tile.value).join("");
     }
 
     stringToState(string: string): State {
@@ -55,7 +56,7 @@ export class PuzzleSolver {
             const newColumn = state.emptyTile.column + direction.column;
 
             if (newRow >= 1 && newRow <= 3 && newColumn >= 1 && newColumn <= 3) {
-                const newBoard = state.board.slice();
+                const newBoard = state.board.map((tile: Tile) => Object.assign({}, tile));
                 const tileToChange = newBoard.find((tile: Tile) => tile.row == newRow && tile.column == newColumn)!
 
                 tileToChange.row = state.emptyTile.row;
