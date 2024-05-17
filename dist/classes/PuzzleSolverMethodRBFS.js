@@ -1,14 +1,14 @@
 import { PuzzleSolver } from './PuzzleSolver';
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
     solve(initialState, maxDepth) {
-        return this.RBFS(initialState, Infinity, maxDepth);
+        return this.RBFS(initialState, Infinity, maxDepth)[0];
     }
     RBFS(initialState, bound, depth) {
         if (!depth) {
-            return null;
+            return [null, Infinity];
         }
         if (this.stateToString(initialState) == "123456780") {
-            return initialState;
+            return [initialState, initialState.totalCost];
         }
         const availableStates = this.getAvailableStates(initialState)
             .map((state) => {
@@ -17,20 +17,19 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
                 value: Math.max(state.totalCost, initialState.totalCost)
             };
         });
-        while (availableStates.some((state) => state.value != Infinity)) {
+        while (true) {
             availableStates.sort((a, b) => a.value - b.value);
             const bestState = availableStates[0];
             if (bestState.value > bound) {
-                return null;
+                return [null, bestState.value];
             }
             const secondBestState = availableStates[1];
             const result = this.RBFS(bestState.state, Math.min(bound, secondBestState.value), depth - 1);
-            bestState.value = result?.totalCost || Infinity;
-            if (result !== null) {
+            bestState.value = result[1] || Infinity;
+            if (result[0] != null) {
                 return result;
             }
         }
-        return null;
     }
 }
 //# sourceMappingURL=PuzzleSolverMethodRBFS.js.map

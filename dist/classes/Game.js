@@ -8,6 +8,7 @@ export class Game {
     solveButton;
     depthInput;
     tableElement;
+    loaderElement;
     puzzleSolver;
     defaultBoard;
     constructor() {
@@ -18,6 +19,7 @@ export class Game {
         this.solveButton = document.getElementsByClassName("solveButton")[0];
         this.depthInput = document.getElementsByClassName("depthInput")[0];
         this.tableElement = document.getElementsByClassName("table")[0];
+        this.loaderElement = document.getElementsByClassName("loader")[0];
         this.puzzleSolver = new PuzzleSolverMethodAStar();
         this.defaultBoard = this.puzzleSolver.stringToState("012345678");
         this.boardInput.addEventListener("input", () => this.onBoardInputType(this.boardInput.value));
@@ -66,10 +68,11 @@ export class Game {
         const initialState = this.boardInput.value.length ? this.puzzleSolver.stringToState(this.boardInput.value) : this.defaultBoard;
         this.drawBoard(initialState);
         this.tableElement.innerHTML = "";
+        this.loaderElement.classList.add("loader_visible");
         setTimeout(() => {
             const solution = this.puzzleSolver.solve(initialState, +this.depthInput.value || 25);
             if (!solution) {
-                alert("No solution found");
+                this.loaderElement.classList.remove("loader_visible");
             }
             else {
                 this.generateTable(this.unpackState(solution));
@@ -88,6 +91,7 @@ export class Game {
     generateTable(path) {
         let newElement;
         this.tableElement.innerHTML = "";
+        this.loaderElement.classList.remove("loader_visible");
         for (let i = 0; i < path.length; i++) {
             newElement = document.createElement("div");
             newElement.classList.add("table__row");

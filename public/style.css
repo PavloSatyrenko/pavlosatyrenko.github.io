@@ -100,6 +100,26 @@ body {
     flex-direction: column;
 }
 
+.loader {
+    display: none;
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid lightblue;
+    border-right-color: orange;
+    animation: spinner 1s infinite linear;
+}
+
+.loader_visible {
+    display: block;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
 .table {
     display: flex;
     flex-direction: column;
