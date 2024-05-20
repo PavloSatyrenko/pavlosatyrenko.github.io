@@ -9,9 +9,52 @@
     <body>
         <h1 class="title">8-puzzle</h1>
         <div class="card">
-            <div class="settings">
-                <h2 class="card__title">Board</h2>
+            <div class="information">
+                <h2 class="card__title">Settings</h2>
 
+                <div class="settings">
+                    <label class="input-wrapper">
+                        <span class="input-label">Enter custom initial board state:</span>
+                        <div class="input-group">
+                            <input type="text" class="input boardInput" placeholder="012345678" />
+                            <button class="button button_icon_only boardButton">
+                                <img src="src/right-long-solid.svg" />
+                            </button>
+                        </div>
+                    </label>
+
+                    <button class="button generateButton">
+                        Generate
+                        <img src="src/shuffle-solid.svg" />
+                    </button>
+
+                    <span class="input-label">Choose a method:</span>
+
+                    <label class="radio-wrapper">
+                        <input class="radio radioButton" type="radio" name="method" value="A*" checked />
+                        <span class="custom-radio"></span>
+                        <span class="input-label">A*</span>
+                    </label>
+
+                    <label class="radio-wrapper">
+                        <input class="radio radioButton" type="radio" name="method" value="RBFS" />
+                        <span class="custom-radio"></span>
+                        <span class="input-label">RBFS</span>
+                    </label>
+
+                    <button type="submit" class="button solveButton">
+                        Solve
+                        <img src="src/magnifying-glass-solid.svg" />
+                    </button>
+                </div>
+
+                <h2 class="card__title">Messages</h2>
+
+                <div class="message"></div>
+            </div>
+
+            <div class="board-wrapper">
+                <h2 class="card__title">Board</h2>
                 <div class="board">
                     <div class="tile" data-value="1">1</div>
                     <div class="tile" data-value="2">2</div>
@@ -23,37 +66,29 @@
                     <div class="tile" data-value="8">8</div>
                     <div class="tile empty-tile" data-value="0"></div>
                 </div>
-
-                <label class="input-wrapper">
-                    <span class="input-label">Enter custom initial board state: </span>
-                    <input type="text" class="input boardInput" placeholder="012345678" />
-                </label>
-
-                <button class="settings__button generateButton">Generate</button>
-
-                <label class="input-wrapper input-wrapper_type_select">
-                    <span class="input-label">Enter custom initial board state: </span>
-                    <select class="input methodSelect">
-                        <option>A*</option>
-                        <option>RBFS</option>
-                    </select>
-                </label>
-
-                <button type="submit" class="settings__button solveButton">Solve</button>
             </div>
 
             <div class="result">
                 <h3 class="card__title">Result</h3>
+
                 <div class="result__header">
-                    <button class="result__button prevButton">🠜</button>
-                    <button class="result__button resetButton">↺</button>
-                    <button class="result__button nextButton">🠞</button>
+                    <button class="result__button button button_icon_only previousButton">
+                        <img src="src/arrow-left-solid.svg" />
+                    </button>
+                    <button class="result__button button button_icon_only resetButton">
+                        <img src="src/rotate-right-solid.svg" />
+                    </button>
+                    <button class="result__button button button_icon_only nextButton">
+                        <img src="src/arrow-right-solid.svg" />
+                    </button>
                 </div>
 
                 <div class="result__body">
-                    <div class="loader"></div>
                     <div class="table"></div>
+                    <button class="button animateButton">Animate</button>
                 </div>
+
+                <div class="result__loader"></div>
             </div>
         </div>
 
