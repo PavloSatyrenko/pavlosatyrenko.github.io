@@ -203,7 +203,7 @@ body {
 
 .button {
     display: flex;
-    gap: 4px;
+    gap: 6px;
     justify-content: center;
     align-items: center;
     height: 40px;
@@ -231,6 +231,7 @@ body {
 
 .button img {
     width: 20px;
+    height: 20px;
     filter: none;
     transition: filter 0.3s;
 }
@@ -245,6 +246,7 @@ body {
 
 .button_icon_only img {
     width: 24px;
+    height: 24px;
 }
 
 /* Message */
@@ -384,15 +386,8 @@ body {
 }
 
 .result__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
     width: 40px;
-    font-size: 34px;
-    font-weight: 700;
     border-radius: 50%;
-    cursor: pointer;
 }
 
 /* Result table */
@@ -405,7 +400,7 @@ body {
 .table {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 56px);
+    height: calc(100% - 108px);
     margin-bottom: 16px;
     padding-right: 6px;
     overflow: auto;
@@ -462,6 +457,10 @@ body {
     color: var(--main-color);
     text-decoration: underline;
     text-underline-offset: 2px;
+}
+
+.result__body .button:last-child {
+    margin-top: 12px;
 }
 
 /* Result loader */
