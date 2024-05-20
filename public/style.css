@@ -1,3 +1,5 @@
+/* Global styles */
+
 :root {
     --tile-size: 6rem;
 
@@ -23,6 +25,8 @@ body {
     background-color: var(--main-background-color);
 }
 
+/* Main title */
+
 .title {
     margin-top: 16px;
     margin-bottom: 24px;
@@ -30,6 +34,8 @@ body {
     font-weight: 900;
     text-align: center;
 }
+
+/* Card */
 
 .card {
     display: flex;
@@ -49,6 +55,8 @@ body {
     font-weight: 700;
 }
 
+/* Settings */
+
 .information {
     display: flex;
     flex-direction: column;
@@ -62,6 +70,8 @@ body {
     gap: 12px;
     width: 100%;
 }
+
+/* Input */
 
 .input-wrapper {
     display: flex;
@@ -126,6 +136,8 @@ body {
     color: var(--main-font-color);
 }
 
+/* Radio button */
+
 .radio-wrapper {
     display: flex;
     align-items: center;
@@ -181,6 +193,8 @@ body {
     opacity: 1;
 }
 
+/* Button */
+
 .button {
     display: flex;
     gap: 4px;
@@ -226,6 +240,8 @@ body {
 .button_icon_only img {
     width: 24px;
 }
+
+/* Board */
 
 .board {
     position: relative;
@@ -280,6 +296,8 @@ body {
     border: none;
 }
 
+/* Result */
+
 .result {
     position: relative;
     width: 33%;
@@ -326,28 +344,11 @@ body {
     cursor: pointer;
 }
 
+/* Result table */
+
 .result__body {
     position: relative;
     height: calc(100% - 104px);
-}
-
-.result__loader {
-    position: absolute;
-    top: calc(50% - 50px);
-    left: calc(50% - 25px);
-    display: none;
-    width: 50px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 8px solid var(--main-background-color);
-    border-right-color: var(--main-color);
-    animation: spinner 1s infinite linear;
-}
-
-@keyframes spinner {
-    to {
-        transform: rotate(1turn);
-    }
 }
 
 .table {
@@ -410,4 +411,25 @@ body {
     color: var(--main-color);
     text-decoration: underline;
     text-underline-offset: 2px;
+}
+
+/* Result loader */
+
+.result__loader {
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 25px);
+    display: none;
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid var(--main-background-color);
+    border-right-color: var(--main-color);
+    animation: spinner 1s infinite linear;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(1turn);
+    }
 }
