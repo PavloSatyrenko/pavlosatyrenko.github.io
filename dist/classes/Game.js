@@ -14,6 +14,7 @@ export class Game {
     previousButton;
     resetButton;
     animateButton;
+    downloadButton;
     puzzleSolver;
     defaultBoard;
     solutionIndex = 0;
@@ -31,6 +32,7 @@ export class Game {
         this.previousButton = document.getElementsByClassName("previousButton")[0];
         this.resetButton = document.getElementsByClassName("resetButton")[0];
         this.animateButton = document.getElementsByClassName("animateButton")[0];
+        this.downloadButton = document.getElementsByClassName("downloadButton")[0];
         this.puzzleSolver = new PuzzleSolverMethodAStar();
         this.defaultBoard = this.puzzleSolver.stringToState("012345678");
         this.boardButton.addEventListener("click", () => this.onBoardButtonClick(this.boardInput.value));
@@ -242,7 +244,18 @@ export class Game {
             newElement.appendChild(newButtonElement);
             this.tableElement.appendChild(newElement);
         }
+        this.downloadButton.onclick = () => this.dowloadSolution(path);
         this.nextButton.disabled = true;
+    }
+    dowloadSolution(path) {
+        const downloadLink = document.createElement("a");
+        const text = path.map((state, index) => index + 1 + ". " + state).join("\n");
+        downloadLink.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+        downloadLink.setAttribute("download", "solution_" + path[0] + ".txt");
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
     }
 }
 //# sourceMappingURL=Game.js.map
