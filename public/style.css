@@ -11,6 +11,12 @@
     --secondary-font-color: #6f707e;
     --white-color: #ffffff;
     --disabled-color: #9fa7b3;
+    --error-background-color: #fef2f2;
+    --error-color: #ee3131;
+    --warning-background-color: #fefaed;
+    --warning-color: #f39300;
+    --success-background-color: #ecfdf5;
+    --success-color: #00ac6b;
 }
 
 * {
@@ -42,7 +48,7 @@ body {
     gap: 48px;
     width: 70vw;
     min-width: 992px;
-    height: 600px;
+    height: 650px;
     padding: 24px 32px 32px;
     margin: 0 auto;
     background-color: var(--white-color);
@@ -155,7 +161,7 @@ body {
 }
 
 .radio-wrapper:hover .custom-radio {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-hover-color);
     border: 2px solid var(--main-color);
 }
 
@@ -239,6 +245,51 @@ body {
 
 .button_icon_only img {
     width: 24px;
+}
+
+/* Message */
+
+.message_error {
+    --message-background-color: var(--error-background-color);
+    --message-color: var(--error-color);
+}
+
+.message_warning {
+    --message-background-color: var(--warning-background-color);
+    --message-color: var(--warning-color);
+}
+
+.message_success {
+    --message-background-color: var(--success-background-color);
+    --message-color: var(--success-color);
+}
+
+.message {
+    display: grid;
+    align-items: center;
+    grid-template-rows: 1fr;
+    grid-template-columns: 48px 1fr;
+    padding: 12px 12px 12px 6px;
+    background-color: var(--message-background-color);
+    border: 2px solid var(--message-color);
+    border-radius: 12px;
+}
+
+.message__icon {
+    width: 24px;
+    margin: 0 auto;
+}
+
+.message__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--main-font-color);
+}
+
+.message__info {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--secondary-font-color);
 }
 
 /* Board */

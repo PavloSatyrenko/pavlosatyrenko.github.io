@@ -61,7 +61,7 @@ export class Game {
             }
             else if (!value.match(/[0-8]{9}/)) {
                 isValidBoard = false;
-                Message.create("The board must contain digits from 0 to 8.", "error");
+                Message.create("The board must contain only digits from 0 to 8.", "error");
             }
             else if (new Set(value).size != value.length) {
                 isValidBoard = false;
@@ -126,6 +126,7 @@ export class Game {
             this.result.classList.remove("result_loading");
             if (solution) {
                 this.result.classList.add("result_visible");
+                Message.create("A solution has been found.", "success");
                 this.generateTable(this.unpackState(solution));
                 this.drawBoard(solution);
                 this.tableElement.children[this.solutionIndex].scrollIntoView({ block: "center", behavior: "smooth" });
