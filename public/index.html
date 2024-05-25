@@ -20,14 +20,14 @@
                         <div class="input-group">
                             <input type="text" class="input boardInput" placeholder="012345678" />
                             <button class="button button_icon_only boardButton">
-                                <img src="assets/right-long-solid.svg" />
+                                <img class="button__image" src="assets/right-long-solid.svg" />
                             </button>
                         </div>
                     </label>
 
                     <button class="button generateButton">
                         Generate
-                        <img src="assets/shuffle-solid.svg" />
+                        <img class="button__image" src="assets/shuffle-solid.svg" />
                     </button>
 
                     <span class="input-label">Choose a method:</span>
@@ -46,7 +46,7 @@
 
                     <button type="submit" class="button solveButton">
                         Solve
-                        <img src="assets/magnifying-glass-solid.svg" />
+                        <img class="button__image" src="assets/magnifying-glass-solid.svg" />
                     </button>
                 </div>
 
@@ -69,6 +69,8 @@
                     <div class="tile" data-value="8">8</div>
                     <div class="tile empty-tile" data-value="0"></div>
                 </div>
+
+                <div class="complexity"></div>
             </div>
 
             <div class="result">
@@ -76,15 +78,15 @@
 
                 <div class="result__header">
                     <button class="result__button button button_icon_only previousButton">
-                        <img src="assets/arrow-left-solid.svg" />
+                        <img class="button__image" src="assets/arrow-left-solid.svg" />
                     </button>
 
                     <button class="result__button button button_icon_only resetButton">
-                        <img src="assets/rotate-right-solid.svg" />
+                        <img class="button__image" src="assets/rotate-right-solid.svg" />
                     </button>
 
                     <button class="result__button button button_icon_only nextButton">
-                        <img src="assets/arrow-right-solid.svg" />
+                        <img class="button__image" src="assets/arrow-right-solid.svg" />
                     </button>
                 </div>
 
@@ -93,12 +95,17 @@
 
                     <button class="button animateButton">
                         Animate
-                        <img src="assets/play-solid.svg">
+                        <img class="button__image" src="assets/play-solid.svg">
+                    </button>
+
+                    <button class="button stopButton">
+                        Stop
+                        <img class="button__image" src="assets/stop-solid.svg">
                     </button>
                     
                     <button class="button downloadButton">
                         Download
-                        <img src="assets/download-solid.svg" />
+                        <img class="button__image" src="assets/download-solid.svg" />
                     </button>
                 </div>
 

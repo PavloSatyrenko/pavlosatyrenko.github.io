@@ -1,8 +1,12 @@
 import { PuzzleSolver } from './PuzzleSolver';
 
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
-    solve(initialState: State): State | null {
-        return this.RBFS(initialState, Infinity)[0];
+    private counter: number = 0;
+
+    solve(initialState: State): [State | null, number] {
+        this.counter = 0;
+
+        return [this.RBFS(initialState, Infinity)[0], this.counter];
     }
 
     RBFS(initialState: State, bound: number): [State | null, number] {
@@ -19,6 +23,8 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
             });
 
         while (true) {
+            this.counter++;
+
             availableStates.sort((a, b) => a.value - b.value);
             const bestState = availableStates[0];
 

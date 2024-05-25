@@ -2,22 +2,25 @@ import { PuzzleSolver } from './PuzzleSolver';
 import { PriorityQueue } from './PriorityQueue';
 
 export class PuzzleSolverMethodAStar extends PuzzleSolver {
-    solve(initialState: State): State | null {
+    solve(initialState: State): [State | null, number] {
         const openSet = new PriorityQueue<State>();
         const closedSet = new Set<string>();
+        let counter: number = 0;
 
         openSet.enqueue(initialState, 0);
 
         while (!openSet.isEmpty()) {
-            const currentState = openSet.dequeue()!;
+            counter++;
+
+            const currentState: State = openSet.dequeue()!;
 
             if (this.stateToString(currentState) == "123456780") {
-                return currentState;
+                return [currentState, counter];
             }
 
             closedSet.add(this.stateToString(currentState));
 
-            const availableStates = this.getAvailableStates(currentState);
+            const availableStates: State[] = this.getAvailableStates(currentState);
             for (const state of availableStates) {
                 if (closedSet.has(this.stateToString(state))) {
                     continue;
@@ -27,6 +30,6 @@ export class PuzzleSolverMethodAStar extends PuzzleSolver {
             }
         }
 
-        return null;
+        return [null, counter];
     }
 }

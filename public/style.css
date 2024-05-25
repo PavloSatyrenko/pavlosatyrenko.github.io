@@ -48,7 +48,7 @@ body {
     gap: 48px;
     width: 70vw;
     min-width: 992px;
-    height: 650px;
+    height: 600px;
     padding: 24px 32px 32px;
     margin: 0 auto;
     background-color: var(--white-color);
@@ -229,22 +229,22 @@ body {
     cursor: default;
 }
 
-.button img {
+.button__image {
     width: 20px;
     height: 20px;
     filter: none;
     transition: filter 0.3s;
 }
 
-.button:not(:disabled):hover img {
+.button:not(:disabled):hover .button__image {
     filter: brightness(0) invert(1);
 }
 
-.button:disabled img {
+.button:disabled .button__image {
     filter: grayscale(1) brightness(1.7);
 }
 
-.button_icon_only img {
+.button_icon_only .button__image {
     width: 24px;
     height: 24px;
 }
@@ -347,6 +347,12 @@ body {
 
 .empty-tile {
     border: none;
+}
+
+.complexity {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* Result */

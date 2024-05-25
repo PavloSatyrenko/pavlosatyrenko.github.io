@@ -13,10 +13,13 @@ export class Game {
 
     result: HTMLElement;
     tableElement: HTMLElement;
+    complexityElement: HTMLElement;
+
     nextButton: HTMLButtonElement;
     previousButton: HTMLButtonElement;
     resetButton: HTMLButtonElement;
     animateButton: HTMLButtonElement;
+    stopButton: HTMLButtonElement;
     downloadButton: HTMLButtonElement;
 
     puzzleSolver: PuzzleSolverMethodAStar | PuzzleSolverMethodRBFS;
@@ -35,10 +38,13 @@ export class Game {
 
         this.result = (document.getElementsByClassName("result") as unknown as HTMLElement[])[0];
         this.tableElement = (document.getElementsByClassName("table") as unknown as HTMLElement[])[0];
+        this.complexityElement = (document.getElementsByClassName("complexity") as unknown as HTMLElement[])[0];
+
         this.nextButton = (document.getElementsByClassName("nextButton") as unknown as HTMLButtonElement[])[0];
         this.previousButton = (document.getElementsByClassName("previousButton") as unknown as HTMLButtonElement[])[0];
         this.resetButton = (document.getElementsByClassName("resetButton") as unknown as HTMLButtonElement[])[0];
         this.animateButton = (document.getElementsByClassName("animateButton") as unknown as HTMLButtonElement[])[0];
+        this.stopButton = (document.getElementsByClassName("stopButton") as unknown as HTMLButtonElement[])[0];
         this.downloadButton = (document.getElementsByClassName("downloadButton") as unknown as HTMLButtonElement[])[0];
 
         this.puzzleSolver = new PuzzleSolverMethodAStar();
@@ -59,6 +65,9 @@ export class Game {
         this.previousButton.addEventListener("click", () => this.decreaseSolutionIndex());
         this.resetButton.addEventListener("click", () => this.resetSolutionIndex());
         this.animateButton.addEventListener("click", () => this.onAnimateButtonClick());
+        this.stopButton.addEventListener("click", () => this.onStopButtonClick());
+
+        this.stopButton.style.display = "none";
     }
 
     drawBoard(state: State = this.defaultBoard): void {
@@ -106,6 +115,8 @@ export class Game {
     }
 
     onBoardButtonClick(value: string): void {
+        this.onStopButtonClick();
+
         const state: State = value.length ? this.puzzleSolver.stringToState(value) : this.defaultBoard;
         this.drawBoard(state);
     }
@@ -118,6 +129,8 @@ export class Game {
             const randomIndex: number = Math.floor(Math.random() * unusedValues.length);
             boardString += unusedValues.splice(randomIndex, 1)[0];
         }
+
+        this.onStopButtonClick();
 
         this.boardInput.value = boardString;
         this.drawBoard(this.puzzleSolver.stringToState(boardString));
@@ -152,16 +165,21 @@ export class Game {
         this.result.classList.add("result_loading");
         this.solveButton.disabled = true;
 
+        this.onStopButtonClick();
+
         setTimeout(() => {
-            const solution: State | null = this.puzzleSolver.solve(initialState);
+            const [solution, counter]: [State | null, number] = this.puzzleSolver.solve(initialState);
             this.solveButton.disabled = false;
             this.result.classList.remove("result_loading");
 
             if (solution) {
+                this.complexityElement.innerText = "Nodes traversed: " + counter;
                 this.result.classList.add("result_visible");
                 Message.create("A solution has been found.", "success");
+
                 this.generateTable(this.unpackState(solution));
                 this.drawBoard(solution);
+
                 this.tableElement.children[this.solutionIndex].scrollIntoView({ block: "center", behavior: "smooth" });
                 this.tableElement.children[this.solutionIndex].children[1].classList.add("table__button_active");
             }
@@ -192,10 +210,8 @@ export class Game {
             this.nextButton.disabled = true;
         }
 
-        if (this.animationInterval && isPressed) {
-            clearInterval(this.animationInterval);
-            this.animationInterval = null;
-            this.animateButton.innerText = "Animate";
+        if (isPressed) {
+            this.onStopButtonClick();
         }
     }
 
@@ -212,11 +228,7 @@ export class Game {
             this.previousButton.disabled = true;
         }
 
-        if (this.animationInterval) {
-            clearInterval(this.animationInterval);
-            this.animationInterval = null;
-            this.animateButton.innerText = "Animate";
-        }
+        this.onStopButtonClick();
     }
 
     resetSolutionIndex(): void {
@@ -231,11 +243,7 @@ export class Game {
         this.previousButton.disabled = true;
         this.nextButton.disabled = false;
 
-        if (this.animationInterval) {
-            clearInterval(this.animationInterval);
-            this.animationInterval = null;
-            this.animateButton.innerText = "Animate";
-        }
+        this.onStopButtonClick();
     }
 
     onTableButtonClick(path: string, index: number): void {
@@ -258,17 +266,15 @@ export class Game {
             this.nextButton.disabled = true;
         }
 
-        if (this.animationInterval) {
-            clearInterval(this.animationInterval);
-            this.animationInterval = null;
-            this.animateButton.innerText = "Animate";
-        }
+        this.onStopButtonClick();
     }
 
     onAnimateButtonClick(): void {
         if (!this.animationInterval) {
             this.resetSolutionIndex();
-            this.animateButton.innerText = "Stop";
+            this.animateButton.style.display = "none";
+            this.stopButton.style.display = "flex";
+
 
             this.animationInterval = setInterval(() => {
                 this.increaseSolutionIndex(false);
@@ -276,14 +282,19 @@ export class Game {
                 if (this.solutionIndex == this.tableElement.children.length - 1 && this.animationInterval) {
                     clearInterval(this.animationInterval);
                     this.animationInterval = null;
-                    this.animateButton.innerText = "Animate";
+                    this.animateButton.style.display = "flex";
+                    this.stopButton.style.display = "none";
                 }
             }, 1000);
         }
-        else {
-            this.animateButton.innerText = "Animate";
+    }
+
+    onStopButtonClick(): void {
+        if (this.animationInterval) {
             clearInterval(this.animationInterval);
             this.animationInterval = null;
+            this.animateButton.style.display = "flex";
+            this.stopButton.style.display = "none";
         }
     }
 
@@ -309,7 +320,7 @@ export class Game {
             this.tableElement.appendChild(newElement);
 
         }
-        
+
         this.downloadButton.onclick = () => this.dowloadSolution(path);
         this.nextButton.disabled = true;
     }

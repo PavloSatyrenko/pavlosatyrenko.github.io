@@ -4,11 +4,13 @@ export class PuzzleSolverMethodAStar extends PuzzleSolver {
     solve(initialState) {
         const openSet = new PriorityQueue();
         const closedSet = new Set();
+        let counter = 0;
         openSet.enqueue(initialState, 0);
         while (!openSet.isEmpty()) {
+            counter++;
             const currentState = openSet.dequeue();
             if (this.stateToString(currentState) == "123456780") {
-                return currentState;
+                return [currentState, counter];
             }
             closedSet.add(this.stateToString(currentState));
             const availableStates = this.getAvailableStates(currentState);
@@ -19,7 +21,7 @@ export class PuzzleSolverMethodAStar extends PuzzleSolver {
                 openSet.enqueue(state, state.totalCost);
             }
         }
-        return null;
+        return [null, counter];
     }
 }
 //# sourceMappingURL=PuzzleSolverMethodAStar.js.map
