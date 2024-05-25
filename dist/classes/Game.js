@@ -1,6 +1,7 @@
 import { PuzzleSolverMethodAStar } from "./PuzzleSolverMethodAStar";
 import { PuzzleSolverMethodRBFS } from "./PuzzleSolverMethodRBFS";
 import { Message } from "./Message";
+import { State } from "./State";
 export class Game {
     boardElement;
     boardInput;
@@ -38,7 +39,7 @@ export class Game {
         this.stopButton = document.getElementsByClassName("stopButton")[0];
         this.downloadButton = document.getElementsByClassName("downloadButton")[0];
         this.puzzleSolver = new PuzzleSolverMethodAStar();
-        this.defaultBoard = this.puzzleSolver.stringToState("012345678");
+        this.defaultBoard = State.stringToState("012345678");
         this.boardButton.addEventListener("click", () => this.onBoardButtonClick(this.boardInput.value));
         this.boardInput.addEventListener("input", () => this.onBoardInputType(this.boardInput.value));
         this.generateButton.addEventListener("click", () => this.generateBoard());
@@ -93,7 +94,7 @@ export class Game {
     }
     onBoardButtonClick(value) {
         this.onStopButtonClick();
-        const state = value.length ? this.puzzleSolver.stringToState(value) : this.defaultBoard;
+        const state = value.length ? State.stringToState(value) : this.defaultBoard;
         this.drawBoard(state);
     }
     generateBoard() {
@@ -105,7 +106,7 @@ export class Game {
         }
         this.onStopButtonClick();
         this.boardInput.value = boardString;
-        this.drawBoard(this.puzzleSolver.stringToState(boardString));
+        this.drawBoard(State.stringToState(boardString));
         if (!this.puzzleSolver.isSolvable(boardString)) {
             this.solveButton.disabled = true;
             Message.create("This board is unsolvable.", "warning");
@@ -126,7 +127,7 @@ export class Game {
         this.solveButton.disabled = !this.puzzleSolver.isSolvable(this.boardInput.value);
     }
     solve() {
-        const initialState = this.boardInput.value.length ? this.puzzleSolver.stringToState(this.boardInput.value) : this.defaultBoard;
+        const initialState = this.boardInput.value.length ? State.stringToState(this.boardInput.value) : this.defaultBoard;
         this.tableElement.innerHTML = "";
         this.result.classList.add("result_loading");
         this.solveButton.disabled = true;
@@ -149,7 +150,7 @@ export class Game {
     unpackState(state) {
         const path = [];
         while (state) {
-            path.unshift(this.puzzleSolver.stateToString(state));
+            path.unshift(state.stateToString());
             state = state.previousState;
         }
         return path;
@@ -158,7 +159,7 @@ export class Game {
         this.tableElement.children[this.solutionIndex++].children[1].classList.remove("table__button_active");
         this.tableElement.children[this.solutionIndex].children[1].classList.add("table__button_active");
         this.tableElement.children[this.solutionIndex].scrollIntoView({ block: "center", behavior: "smooth" });
-        this.drawBoard(this.puzzleSolver.stringToState(this.tableElement.children[this.solutionIndex].children[1].textContent));
+        this.drawBoard(State.stringToState(this.tableElement.children[this.solutionIndex].children[1].textContent));
         this.previousButton.disabled = false;
         if (this.solutionIndex == this.tableElement.children.length - 1) {
             this.nextButton.disabled = true;
@@ -171,7 +172,7 @@ export class Game {
         this.tableElement.children[this.solutionIndex--].children[1].classList.remove("table__button_active");
         this.tableElement.children[this.solutionIndex].children[1].classList.add("table__button_active");
         this.tableElement.children[this.solutionIndex].scrollIntoView({ block: "center", behavior: "smooth" });
-        this.drawBoard(this.puzzleSolver.stringToState(this.tableElement.children[this.solutionIndex].children[1].textContent));
+        this.drawBoard(State.stringToState(this.tableElement.children[this.solutionIndex].children[1].textContent));
         this.nextButton.disabled = false;
         if (this.solutionIndex == 0) {
             this.previousButton.disabled = true;
@@ -183,7 +184,7 @@ export class Game {
         this.solutionIndex = 0;
         this.tableElement.children[this.solutionIndex].children[1].classList.add("table__button_active");
         this.tableElement.children[this.solutionIndex].scrollIntoView({ block: "center", behavior: "smooth" });
-        this.drawBoard(this.puzzleSolver.stringToState(this.tableElement.children[this.solutionIndex].children[1].textContent));
+        this.drawBoard(State.stringToState(this.tableElement.children[this.solutionIndex].children[1].textContent));
         this.previousButton.disabled = true;
         this.nextButton.disabled = false;
         this.onStopButtonClick();
@@ -193,7 +194,7 @@ export class Game {
         this.solutionIndex = index;
         this.tableElement.children[this.solutionIndex].children[1].classList.add("table__button_active");
         this.tableElement.children[this.solutionIndex].scrollIntoView({ block: "center", behavior: "smooth" });
-        this.drawBoard(this.puzzleSolver.stringToState(path));
+        this.drawBoard(State.stringToState(path));
         this.nextButton.disabled = false;
         this.previousButton.disabled = false;
         if (this.solutionIndex == 0) {

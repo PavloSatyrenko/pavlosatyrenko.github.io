@@ -1,5 +1,4 @@
-"use strict";
-class State {
+export class State {
     board;
     emptyTile;
     previousState;
@@ -9,15 +8,16 @@ class State {
     constructor(board, emptyTile, previousState, cost = 0, heuristic = 0, totalCost = 0) {
         this.board = board;
         this.emptyTile = emptyTile;
+        this.previousState = previousState;
         this.cost = cost;
         this.heuristic = heuristic;
         this.totalCost = totalCost;
     }
-    stateToString(state) {
-        return state.board.sort((a, b) => a.row - b.row || a.column - b.column)
+    stateToString() {
+        return this.board.sort((a, b) => a.row - b.row || a.column - b.column)
             .map((tile) => tile.value).join("");
     }
-    stringToState(string) {
+    static stringToState(string) {
         const board = string.split('').map((value, index) => {
             return {
                 value: +value,

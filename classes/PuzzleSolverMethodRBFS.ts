@@ -1,4 +1,5 @@
 import { PuzzleSolver } from './PuzzleSolver';
+import { State } from './State';
 
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
     private counter: number = 0;
@@ -10,7 +11,7 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
     }
 
     RBFS(initialState: State, bound: number): [State | null, number] {
-        if (this.stateToString(initialState) == "123456780") {
+        if (initialState.stateToString() == "123456780") {
             return [initialState, initialState.totalCost];
         }
 

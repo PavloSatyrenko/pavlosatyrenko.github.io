@@ -6,7 +6,7 @@ export class PuzzleSolverMethodRBFS extends PuzzleSolver {
         return [this.RBFS(initialState, Infinity)[0], this.counter];
     }
     RBFS(initialState, bound) {
-        if (this.stateToString(initialState) == "123456780") {
+        if (initialState.stateToString() == "123456780") {
             return [initialState, initialState.totalCost];
         }
         const availableStates = this.getAvailableStates(initialState)

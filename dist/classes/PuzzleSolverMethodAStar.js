@@ -9,13 +9,13 @@ export class PuzzleSolverMethodAStar extends PuzzleSolver {
         while (!openSet.isEmpty()) {
             counter++;
             const currentState = openSet.dequeue();
-            if (this.stateToString(currentState) == "123456780") {
+            if (currentState.stateToString() == "123456780") {
                 return [currentState, counter];
             }
-            closedSet.add(this.stateToString(currentState));
+            closedSet.add(currentState.stateToString());
             const availableStates = this.getAvailableStates(currentState);
             for (const state of availableStates) {
-                if (closedSet.has(this.stateToString(state))) {
+                if (closedSet.has(state.stateToString())) {
                     continue;
                 }
                 openSet.enqueue(state, state.totalCost);

@@ -1,5 +1,6 @@
 import { PuzzleSolver } from './PuzzleSolver';
 import { PriorityQueue } from './PriorityQueue';
+import { State } from './State';
 
 export class PuzzleSolverMethodAStar extends PuzzleSolver {
     solve(initialState: State): [State | null, number] {
@@ -14,15 +15,15 @@ export class PuzzleSolverMethodAStar extends PuzzleSolver {
 
             const currentState: State = openSet.dequeue()!;
 
-            if (this.stateToString(currentState) == "123456780") {
+            if (currentState.stateToString() == "123456780") {
                 return [currentState, counter];
             }
 
-            closedSet.add(this.stateToString(currentState));
+            closedSet.add(currentState.stateToString());
 
             const availableStates: State[] = this.getAvailableStates(currentState);
             for (const state of availableStates) {
-                if (closedSet.has(this.stateToString(state))) {
+                if (closedSet.has(state.stateToString())) {
                     continue;
                 }
 

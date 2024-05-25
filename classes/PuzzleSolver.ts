@@ -1,30 +1,6 @@
+import { State } from "./State";
+
 export class PuzzleSolver {
-    stateToString(state: State): string {
-        return state.board.sort((a: Tile, b: Tile) => a.row - b.row || a.column - b.column)
-            .map((tile: Tile) => tile.value).join("");
-    }
-
-    stringToState(string: string): State {
-        const board: Tile[] = string.split('').map((value: string, index: number) => {
-            return {
-                value: +value,
-                row: Math.floor(index / 3) + 1,
-                column: index % 3 + 1,
-            };
-        });
-
-        const emptyTile: Tile = board.find((tile: Tile) => tile.value == 0)!;
-
-        return {
-            board,
-            emptyTile,
-            cost: 0,
-            heuristic: 0,
-            depth: 0,
-            totalCost: 0,
-        };
-    }
-
     isSolvable(string: string): boolean {
         let inversionCount = 0;
 
@@ -81,15 +57,7 @@ export class PuzzleSolver {
 
                 const newEmpyTile: Tile = newBoard.find((tile: Tile) => tile.value == 0)!;
 
-                const newState: State = {
-                    board: newBoard,
-                    emptyTile: newEmpyTile,
-                    cost: state.cost + 1,
-                    heuristic: 0,
-                    totalCost: 0,
-                    depth: state.depth + 1,
-                    previousState: state
-                };
+                const newState: State = new State(newBoard, newEmpyTile, state, state.cost + 1);
 
                 newState.heuristic = this.calculateTotalHeuristic(newState);
                 newState.totalCost = newState.cost + newState.heuristic;
