@@ -248,6 +248,7 @@ export class Game {
         }
         this.downloadButton.onclick = () => this.dowloadSolution(path);
         this.nextButton.disabled = true;
+        this.previousButton.disabled = false;
     }
     dowloadSolution(path) {
         const downloadLink = document.createElement("a");

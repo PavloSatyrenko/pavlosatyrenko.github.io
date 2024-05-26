@@ -319,11 +319,11 @@ export class Game {
             newElement.appendChild(newButtonElement);
 
             this.tableElement.appendChild(newElement);
-
         }
 
         this.downloadButton.onclick = () => this.dowloadSolution(path);
         this.nextButton.disabled = true;
+        this.previousButton.disabled = false;
     }
 
     dowloadSolution(path: string[]): void {
