@@ -1,8 +1,8 @@
 import { PuzzleSolver } from './PuzzleSolver';
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
-    counter = 0;
+    counter = 1;
     solve(initialState) {
-        this.counter = 0;
+        this.counter = 1;
         return [this.RBFS(initialState, Infinity)[0], this.counter];
     }
     RBFS(initialState, bound) {

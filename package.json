@@ -5,13 +5,16 @@
   "author": "Satyrenko Pavlo",
   "license": "ISC",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server --mode development --open"
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open",
+    "deploy": "webpack --mode production && gh-pages -d dist"
   },
   "dependencies": {
-    "@types/node": "^20.12.8"
+    "@types/node": "^20.12.8",
+    "dist": "^0.1.2"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",

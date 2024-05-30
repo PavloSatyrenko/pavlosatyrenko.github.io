@@ -2,10 +2,10 @@ import { PuzzleSolver } from './PuzzleSolver';
 import { State } from './State';
 
 export class PuzzleSolverMethodRBFS extends PuzzleSolver {
-    private counter: number = 0;
+    private counter: number = 1;
 
     solve(initialState: State): [State | null, number] {
-        this.counter = 0;
+        this.counter = 1;
 
         return [this.RBFS(initialState, Infinity)[0], this.counter];
     }

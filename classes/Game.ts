@@ -147,16 +147,12 @@ export class Game {
     }
 
     onMethodSelectChange(value: string): void {
-        this.solveButton.disabled = true;
-
         if (value === "A*") {
             this.puzzleSolver = new PuzzleSolverMethodAStar();
         }
         else if (value === "RBFS") {
             this.puzzleSolver = new PuzzleSolverMethodRBFS();
         }
-
-        this.solveButton.disabled = !this.puzzleSolver.isSolvable(this.boardInput.value);
     }
 
     solve(): void {
@@ -242,13 +238,13 @@ export class Game {
 
         this.drawBoard(State.stringToState(this.tableElement.children[this.solutionIndex].children[1].textContent!));
         this.previousButton.disabled = true;
-        this.nextButton.disabled = false;
+        this.nextButton.disabled = this.tableElement.children.length <= 1;
 
         this.onStopButtonClick();
     }
 
     onTableButtonClick(path: string, index: number): void {
-        this.tableElement.children[this.solutionIndex--].children[1].classList.remove("table__button_active");
+        this.tableElement.children[this.solutionIndex].children[1].classList.remove("table__button_active");
 
         this.solutionIndex = index;
 
@@ -271,22 +267,21 @@ export class Game {
     }
 
     onAnimateButtonClick(): void {
-        if (!this.animationInterval) {
-            this.resetSolutionIndex();
-            this.animateButton.style.display = "none";
-            this.stopButton.style.display = "flex";
+        if (this.tableElement.children.length > 1) {
+            if (!this.animationInterval) {
+                this.resetSolutionIndex();
+                this.animateButton.style.display = "none";
+                this.stopButton.style.display = "flex";
 
 
-            this.animationInterval = setInterval(() => {
-                this.increaseSolutionIndex(false);
+                this.animationInterval = setInterval(() => {
+                    this.increaseSolutionIndex(false);
 
-                if (this.solutionIndex == this.tableElement.children.length - 1 && this.animationInterval) {
-                    clearInterval(this.animationInterval);
-                    this.animationInterval = null;
-                    this.animateButton.style.display = "flex";
-                    this.stopButton.style.display = "none";
-                }
-            }, 1000);
+                    if (this.solutionIndex == this.tableElement.children.length - 1) {
+                        this.onStopButtonClick();
+                    }
+                }, 1000);
+            }
         }
     }
 
@@ -323,7 +318,7 @@ export class Game {
 
         this.downloadButton.onclick = () => this.dowloadSolution(path);
         this.nextButton.disabled = true;
-        this.previousButton.disabled = false;
+        this.previousButton.disabled = this.tableElement.children.length <= 1;
     }
 
     dowloadSolution(path: string[]): void {
