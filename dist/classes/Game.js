@@ -204,9 +204,9 @@ export class Game {
         this.onStopButtonClick();
     }
     onAnimateButtonClick() {
-        if (this.tableElement.children.length > 1) {
-            if (!this.animationInterval) {
-                this.resetSolutionIndex();
+        if (!this.animationInterval) {
+            this.resetSolutionIndex();
+            if (this.tableElement.children.length > 1) {
                 this.animateButton.style.display = "none";
                 this.stopButton.style.display = "flex";
                 this.animationInterval = setInterval(() => {
